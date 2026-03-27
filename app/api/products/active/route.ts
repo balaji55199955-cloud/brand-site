@@ -1,8 +1,19 @@
 import { NextResponse } from 'next/server'
 import { getAdminClient } from '@/lib/supabase/admin'
+import { productsLimiter } from '@/lib/rate-limit'
 
 export async function GET() {
   try {
+    // Rate limit by IP (using a generic key since this is a simple GET)
+    const rateLimit = productsLimiter('global')
+
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      )
+    }
+
     const adminClient = getAdminClient()
     const { data, error } = await adminClient
       .from('products')

@@ -1,12 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { getAdminClient } from '@/lib/supabase/admin'
+import { waitlistLimiter } from '@/lib/rate-limit'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 const resendApiKey = process.env.RESEND_API_KEY
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limit by IP
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown'
+    const rateLimit = waitlistLimiter(ip)
+
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { success: false, error: 'Too many requests. Please try again later.' },
+        { status: 429 }
+      )
+    }
+
     const { email, phone } = await request.json()
 
     // Validate email
@@ -17,7 +27,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const supabase = createClient(supabaseUrl, supabaseKey)
+    // Use admin client to bypass RLS (anon key cannot SELECT from waitlist)
+    const supabase = getAdminClient()
 
     // Check if already registered
     const { data: existing } = await supabase

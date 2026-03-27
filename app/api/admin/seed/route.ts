@@ -8,6 +8,17 @@ function randomCode() {
 
 export async function POST(request: Request) {
   try {
+    // Disable in production unless explicitly enabled via env var
+    const isDev = process.env.NODE_ENV === 'development'
+    const allowProdSeed = process.env.ALLOW_PROD_SEED === 'true'
+
+    if (!isDev && !allowProdSeed) {
+      return NextResponse.json(
+        { error: 'Seed endpoint disabled in production' },
+        { status: 403 }
+      )
+    }
+
     const token = request.headers.get('x-seed-token')
     if (!token || token !== process.env.ADMIN_SEED_TOKEN) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

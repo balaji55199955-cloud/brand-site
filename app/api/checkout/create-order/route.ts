@@ -90,7 +90,7 @@ export async function POST(request: Request) {
       orderId: razorpayOrder.id,
       amount: razorpayOrder.amount,
       currency: razorpayOrder.currency,
-      keyId: process.env.RAZORPAY_KEY_ID,
+      keyId: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
       product: {
         id: product.id,
         name: product.name,
