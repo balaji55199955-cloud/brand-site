@@ -1,26 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Instrument+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
+/* ============================================
+   [BRAND] DESIGN SYSTEM
+   Aesthetic: "Motorsport soul, luxury surface"
+   ============================================ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand Colors */
+  --brand-black: #080808;
+  --brand-carbon: #111111;
+  --brand-steel: #1C1C1E;
+  --brand-white: #F0EDE8;
+  --brand-muted: #6B6B6B;
+  --brand-red: #C41E3A;
+  --brand-gold: #8A7355;
+
+  --background: var(--brand-black);
+  --foreground: var(--brand-white);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-brand-black: var(--brand-black);
+  --color-brand-carbon: var(--brand-carbon);
+  --color-brand-steel: var(--brand-steel);
+  --color-brand-white: var(--brand-white);
+  --color-brand-muted: var(--brand-muted);
+  --color-brand-red: var(--brand-red);
+  --color-brand-gold: var(--brand-gold);
+
+  --font-display: 'Orbitron', sans-serif;
+  --font-body: 'Instrument Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--brand-black);
+  color: var(--brand-white);
+  font-family: var(--font-body);
+  min-height: 100vh;
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR - Thin, minimal
+   ============================================ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--brand-carbon);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--brand-steel);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-muted);
+}
+
+/* ============================================
+   CARBON TEXTURE - Subtle diagonal pattern
+   ============================================ */
+.carbon-texture {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.02) 0px,
+    rgba(255, 255, 255, 0.02) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+}
+
+/* ============================================
+   SCAN LINE - Slow horizontal animation
+   ============================================ */
+.scan-line {
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(196, 30, 58, 0.1),
+    transparent
+  );
+  animation: scan 8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+/* ============================================
+   SERIAL NUMBER STYLE
+   ============================================ */
+.serial-number {
+  font-family: var(--font-mono);
+  letter-spacing: 0.15em;
+  color: var(--brand-muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+/* ============================================
+   SHIMMER ANIMATION - For loading skeletons
+   ============================================ */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--brand-carbon) 0%,
+    var(--brand-steel) 50%,
+    var(--brand-carbon) 100%
+  );
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+.text-balance {
+  text-wrap: balance;
+}
+
+.antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus states for accessibility */
+:focus-visible {
+  outline: 2px solid var(--brand-red);
+  outline-offset: 2px;
+}
+
+/* Selection color */
+::selection {
+  background: var(--brand-red);
+  color: var(--brand-white);
 }
