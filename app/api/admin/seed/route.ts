@@ -1,6 +1,6 @@
 import crypto from 'node:crypto'
 import { NextResponse } from 'next/server'
-import { getAdminClient } from '@/lib/supabase/admin'
+import { getAdminClient } from '@/lib/supabase.ts/admin'
 
 function randomCode() {
   return crypto.randomBytes(6).toString('hex').toUpperCase()

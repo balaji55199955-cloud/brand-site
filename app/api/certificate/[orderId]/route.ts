@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase/server'
-import { getAdminClient } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/supabase.ts/server'
+import { getAdminClient } from '@/lib/supabase.ts/admin'
 
 type Params = {
   params: Promise<{ orderId: string }>

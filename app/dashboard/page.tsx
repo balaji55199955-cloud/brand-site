@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation'
-import { createClient } from '@/lib/supabase/server'
-import { getAdminClient } from '@/lib/supabase/admin'
+import { createClient } from '@/lib/supabase.ts/server'
+import { getAdminClient } from '@/lib/supabase.ts/admin'
 
 export const dynamic = 'force-dynamic'
 

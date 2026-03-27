@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getAdminClient } from '@/lib/supabase/admin'
+import { getAdminClient } from '@/lib/supabase.ts/admin'
 import { nfcVerifyLimiter } from '@/lib/rate-limit'
 
 export async function GET(request: Request) {

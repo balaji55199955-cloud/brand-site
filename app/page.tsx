@@ -232,23 +232,7 @@ function LiveProducts() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    let active = true
-    fetch('/api/products/active')
-      .then(async (res) => {
-        if (!res.ok) return { products: [] as ActiveProduct[] }
-        return (await res.json()) as { products: ActiveProduct[] }
-      })
-      .then((data) => {
-        if (!active) return
-        setProducts(data.products || [])
-      })
-      .finally(() => {
-        if (active) setLoading(false)
-      })
-
-    return () => {
-      active = false
-    }
+    setLoading(false)
   }, [])
 
   return (
