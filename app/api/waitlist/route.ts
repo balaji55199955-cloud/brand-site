@@ -32,9 +32,10 @@ export async function POST(req: Request) {
       .select()
       .single()
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 })
-    }
+      if (error) {
+        console.log('SUPABASE ERROR FULL:', error) // 👈 ADD THIS
+        return NextResponse.json({ error: error.message }, { status: 400 })
+      }
 
     return NextResponse.json({
       success: true,
