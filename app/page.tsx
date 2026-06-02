@@ -55,6 +55,12 @@ function NavBar() {
         </span>
         <div className="flex items-center gap-6">
           <a
+            href="/vault"
+            className="text-brand-muted hover:text-brand-white text-sm transition-colors"
+          >
+            VAULT
+          </a>
+          <a
             href="/dashboard"
             className="text-brand-muted hover:text-brand-white text-sm transition-colors"
           >
