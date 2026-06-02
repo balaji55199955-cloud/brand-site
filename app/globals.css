@@ -179,6 +179,36 @@ button, a {
   outline-offset: 2px;
 }
 
+/* Admin form styles */
+.admin-input {
+  background: var(--brand-black);
+  border: 1px solid var(--brand-steel);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+  color: var(--brand-white);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.admin-input:focus {
+  border-color: var(--brand-red);
+}
+
+.admin-btn {
+  background: var(--brand-red);
+  color: var(--brand-white);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: opacity 0.2s;
+}
+
+.admin-btn:disabled {
+  opacity: 0.5;
+}
+
 /* Selection color */
 ::selection {
   background: var(--brand-red);

@@ -1,4 +1,5 @@
 import { getAdminClient } from '@/lib/supabase.ts/admin'
+import { InviteButton } from '../forms'
 
 export const dynamic = 'force-dynamic'
 
@@ -27,6 +28,7 @@ export default async function AdminWaitlistPage() {
               <th className="text-left p-3 text-brand-muted font-mono text-xs">INVITED</th>
               <th className="text-left p-3 text-brand-muted font-mono text-xs">DROP ACCESS</th>
               <th className="text-left p-3 text-brand-muted font-mono text-xs">JOINED</th>
+              <th className="text-left p-3 text-brand-muted font-mono text-xs">ACTION</th>
             </tr>
           </thead>
           <tbody>
@@ -42,6 +44,9 @@ export default async function AdminWaitlistPage() {
                 <td className="p-3 font-mono">{entry.drop_access ?? '—'}</td>
                 <td className="p-3 text-brand-muted text-xs">
                   {new Date(entry.created_at).toLocaleDateString('en-IN')}
+                </td>
+                <td className="p-3">
+                  {!entry.invited && <InviteButton entryId={entry.id} />}
                 </td>
               </tr>
             ))}

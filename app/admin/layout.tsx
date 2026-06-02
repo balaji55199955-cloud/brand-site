@@ -44,6 +44,9 @@ export default async function AdminLayout({
               <a href="/admin/drops" className="text-brand-muted hover:text-brand-white text-xs transition-colors">
                 DROPS
               </a>
+              <a href="/admin/settings" className="text-brand-muted hover:text-brand-white text-xs transition-colors">
+                SETTINGS
+              </a>
             </div>
           </div>
           <div className="flex items-center gap-4">
