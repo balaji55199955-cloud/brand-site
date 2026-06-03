@@ -23,7 +23,7 @@ export async function createClient() {
         },
       },
       global: {
-        fetch: fetch,
+        fetch: (...args) => fetch(...args),
       },
     }
   )
