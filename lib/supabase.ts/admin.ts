@@ -13,5 +13,8 @@ export function getAdminClient() {
       autoRefreshToken: false,
       persistSession: false,
     },
+    global: {
+      fetch: fetch,
+    },
   })
 }

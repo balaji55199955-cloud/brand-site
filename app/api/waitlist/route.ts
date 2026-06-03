@@ -26,10 +26,16 @@ export async function POST(req: Request) {
       })
     }
 
+    const { count } = await supabase
+      .from('waitlist')
+      .select('id', { count: 'exact', head: true })
+
+    const position = (count ?? 0) + 1
+
     const { data, error } = await supabase
       .from('waitlist')
-      .insert([{ email }])
-      .select('position')
+      .insert([{ email, position }])
+      .select('id, position')
       .single()
 
     if (error) {
