@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase.ts/server'
-import { getAdminClient } from '@/lib/supabase.ts/admin'
+import { createClient } from '@/lib/supabase/server'
+import { adminSupabase } from '@/lib/supabase/admin'
 import { getRazorpayClient } from '@/lib/razorpay'
 
 type CreateOrderPayload = {
@@ -9,7 +9,7 @@ type CreateOrderPayload = {
 
 export async function POST(request: Request) {
   try {
-    const adminClient = getAdminClient()
+    
     const razorpay = getRazorpayClient()
     const { productId } = (await request.json()) as CreateOrderPayload
     if (!productId) {
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { data: reserved, error: reserveError } = await adminClient.rpc(
+    const { data: reserved, error: reserveError } = await adminSupabase.rpc(
       'reserve_product_stock',
       {
         p_product_id: productId,
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
       )
     }
 
-    const { data: product, error: productError } = await adminClient
+    const { data: product, error: productError } = await adminSupabase
       .from('products')
       .select('id, sku, name, price_inr')
       .eq('id', productId)
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
       },
     })
 
-    const { error: insertError } = await adminClient.from('orders').insert({
+    const { error: insertError } = await adminSupabase.from('orders').insert({
       user_id: user.id,
       product_id: product.id,
       amount_inr: product.price_inr,

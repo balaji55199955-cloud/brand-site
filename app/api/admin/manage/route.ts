@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase.ts/server'
-import { getAdminClient } from '@/lib/supabase.ts/admin'
+import { createClient } from '@/lib/supabase/server'
+import { adminSupabase } from '@/lib/supabase/admin'
 
 export async function POST(request: Request) {
   try {
@@ -14,10 +14,10 @@ export async function POST(request: Request) {
     const formData = await request.formData()
     const action = formData.get('action') as string
 
-    const adminClient = getAdminClient()
+    
 
     if (action === 'create-drop') {
-      const { error } = await adminClient.from('drops').insert({
+      const { error } = await adminSupabase.from('drops').insert({
         drop_number: parseInt(formData.get('drop_number') as string),
         name: formData.get('name') as string,
         description: formData.get('description') as string,
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
 
     if (action === 'update-drop') {
       const id = formData.get('id') as string
-      const { error } = await adminClient.from('drops').update({
+      const { error } = await adminSupabase.from('drops').update({
         name: formData.get('name') as string,
         description: formData.get('description') as string,
         price_inr: parseInt(formData.get('price_inr') as string),
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     }
 
     if (action === 'create-product') {
-      const { error } = await adminClient.from('products').insert({
+      const { error } = await adminSupabase.from('products').insert({
         drop_id: formData.get('drop_id') as string || null,
         sku: formData.get('sku') as string,
         name: formData.get('name') as string,
@@ -72,7 +72,7 @@ export async function POST(request: Request) {
       const imageUrl = formData.get('image_url') as string
       if (imageUrl) updates.image_url = imageUrl
 
-      const { error } = await adminClient.from('products').update(updates).eq('id', id)
+      const { error } = await adminSupabase.from('products').update(updates).eq('id', id)
 
       if (error) return NextResponse.json({ error: error.message }, { status: 400 })
       return NextResponse.json({ success: true })
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
       const ext = file.name.split('.').pop()
       const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
 
-      const { data, error } = await adminClient.storage
+      const { data, error } = await adminSupabase.storage
         .from('product-images')
         .upload(fileName, file, {
           cacheControl: '31536000',
@@ -94,7 +94,7 @@ export async function POST(request: Request) {
 
       if (error) return NextResponse.json({ error: error.message }, { status: 400 })
 
-      const { data: urlData } = adminClient.storage
+      const { data: urlData } = adminSupabase.storage
         .from('product-images')
         .getPublicUrl(data.path)
 
@@ -109,7 +109,7 @@ export async function POST(request: Request) {
         keywords: formData.get('keywords') as string,
       }
 
-      const { error } = await adminClient.from('site_settings').upsert(
+      const { error } = await adminSupabase.from('site_settings').upsert(
         { key: 'seo', value: seoData },
         { onConflict: 'key' }
       )
@@ -122,7 +122,7 @@ export async function POST(request: Request) {
       const id = formData.get('id') as string
       const dropAccess = parseInt(formData.get('drop_access') as string)
 
-      const { error } = await adminClient.from('waitlist').update({
+      const { error } = await adminSupabase.from('waitlist').update({
         invited: true,
         drop_access: dropAccess,
       }).eq('id', id)

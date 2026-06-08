@@ -113,7 +113,7 @@ export default function DropPage() {
         key: data.keyId,
         amount: data.amount,
         currency: data.currency,
-        name: '[BRAND]',
+        name: 'Leous',
         description: `${data.product.name} (${data.product.sku})`,
         order_id: data.orderId,
         theme: { color: '#C41E3A' },
@@ -139,7 +139,7 @@ export default function DropPage() {
             DROP 00{params.dropNumber}
           </span>
           <div className="text-center">
-            <span className="font-display text-brand-muted text-6xl">[BRAND]</span>
+            <span className="font-display text-brand-muted text-6xl">Leous</span>
           </div>
           <span className="absolute bottom-6 left-6 font-display text-brand-white text-lg">
             {drop.name}

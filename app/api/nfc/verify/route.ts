@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getAdminClient } from '@/lib/supabase.ts/admin'
+import { adminSupabase } from '@/lib/supabase/admin'
 import { nfcVerifyLimiter } from '@/lib/rate-limit'
 
 export async function GET(request: Request) {
@@ -15,7 +15,7 @@ export async function GET(request: Request) {
       )
     }
 
-    const adminClient = getAdminClient()
+    
     const { searchParams } = new URL(request.url)
     const code = searchParams.get('code')
 
@@ -23,7 +23,7 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Missing code' }, { status: 400 })
     }
 
-    const { data: tag, error: tagError } = await adminClient
+    const { data: tag, error: tagError } = await adminSupabase
       .from('nfc_tags')
       .select('id, product_id, public_code, is_active')
       .eq('public_code', code)
@@ -36,13 +36,13 @@ export async function GET(request: Request) {
       })
     }
 
-    const { data: product } = await adminClient
+    const { data: product } = await adminSupabase
       .from('products')
       .select('name, sku')
       .eq('id', tag.product_id)
       .single()
 
-    const { data: certificate } = await adminClient
+    const { data: certificate } = await adminSupabase
       .from('ownership_certificates')
       .select('status, minted_at')
       .eq('product_id', tag.product_id)

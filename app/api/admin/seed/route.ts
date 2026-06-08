@@ -1,6 +1,6 @@
 import crypto from 'node:crypto'
 import { NextResponse } from 'next/server'
-import { getAdminClient } from '@/lib/supabase.ts/admin'
+import { adminSupabase } from '@/lib/supabase/admin'
 
 function randomCode() {
   return crypto.randomBytes(6).toString('hex').toUpperCase()
@@ -24,14 +24,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const adminClient = getAdminClient()
+    
 
-    const { data: drop, error: dropError } = await adminClient
+    const { data: drop, error: dropError } = await adminSupabase
       .from('drops')
       .upsert(
         {
           drop_number: 1,
-          name: '[BRAND] Drop 001',
+          name: 'Leous Drop 001',
           description: 'Ultra-limited phygital streetwear drop.',
           price_inr: 14999,
           total_units: 10,
@@ -47,13 +47,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Failed to create drop' }, { status: 500 })
     }
 
-    const { data: product, error: productError } = await adminClient
+    const { data: product, error: productError } = await adminSupabase
       .from('products')
       .upsert(
         {
           drop_id: drop.id,
           sku: 'DROP001-TEE-BLK-OS',
-          name: '[BRAND] Drop 001 Tee',
+          name: 'Leous Drop 001 Tee',
           description: '500 GSM heavyweight tee with embedded NFC authenticity chip.',
           price_inr: 14999,
           stock_total: 10,
@@ -69,7 +69,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Failed to create product' }, { status: 500 })
     }
 
-    await adminClient.from('nfc_tags').upsert(
+    await adminSupabase.from('nfc_tags').upsert(
       {
         product_id: product.id,
         chip_uid_hash: `seed-${product.id}`,

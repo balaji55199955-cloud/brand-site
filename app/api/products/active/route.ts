@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getAdminClient } from '@/lib/supabase.ts/admin'
+import { adminSupabase } from '@/lib/supabase/admin'
 import { productsLimiter } from '@/lib/rate-limit'
 
 export async function GET() {
@@ -14,8 +14,8 @@ export async function GET() {
       )
     }
 
-    const adminClient = getAdminClient()
-    const { data, error } = await adminClient
+    
+    const { data, error } = await adminSupabase
       .from('products')
       .select('id, sku, name, description, price_inr, stock_left')
       .eq('is_active', true)

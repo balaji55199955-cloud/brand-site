@@ -1,23 +1,36 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Instrument+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 /* ============================================
-   [BRAND] DESIGN SYSTEM
-   Aesthetic: "Motorsport soul, luxury surface"
+   Leous DESIGN SYSTEM - CORE THEME
+   Aesthetic: "Minimal luxury, warm neutrals, quiet confidence"
    ============================================ */
 
 :root {
   /* Brand Colors */
-  --brand-black: #080808;
+  --brand-black: #0A0A0A;
   --brand-carbon: #111111;
-  --brand-steel: #1C1C1E;
-  --brand-white: #F0EDE8;
-  --brand-muted: #6B6B6B;
+  --brand-steel: #1A1A1A;
+  --brand-white: #F5F2ED;
+  --brand-muted: #8C8580;
   --brand-red: #C41E3A;
-  --brand-gold: #8A7355;
+  --brand-gold: #C9A96E;
+  --brand-blue: #C9A96E;
 
   --background: var(--brand-black);
   --foreground: var(--brand-white);
+  --primary: var(--brand-gold);
+  --primary-foreground: #0A0A0A;
+  --secondary: var(--brand-steel);
+  --secondary-foreground: var(--brand-muted);
+  --muted: var(--brand-steel);
+  --muted-foreground: var(--brand-muted);
+  --accent: var(--brand-gold);
+  --accent-foreground: #0A0A0A;
+  --destructive: #EF4444;
+  --destructive-foreground: #ffffff;
+  --border: rgba(255, 255, 255, 0.06);
+  --input: rgba(255, 255, 255, 0.06);
+  --ring: var(--brand-gold);
 }
 
 @theme inline {
@@ -28,9 +41,27 @@
   --color-brand-muted: var(--brand-muted);
   --color-brand-red: var(--brand-red);
   --color-brand-gold: var(--brand-gold);
+  --color-brand-blue: var(--brand-blue);
 
-  --font-display: 'Orbitron', sans-serif;
-  --font-body: 'Instrument Sans', sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --font-display: var(--font-geist-sans), sans-serif;
+  --font-body: var(--font-inter), sans-serif;
+  --font-sans: var(--font-inter), sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }
 
@@ -48,6 +79,7 @@ body {
   font-family: var(--font-body);
   min-height: 100vh;
 }
+
 
 /* ============================================
    CUSTOM SCROLLBAR - Thin, minimal

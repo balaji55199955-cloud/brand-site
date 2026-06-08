@@ -1,6 +1,6 @@
 {
-  "name": "[BRAND] — Owner Vault",
-  "short_name": "[BRAND]",
+  "name": "Leous — Owner Vault",
+  "short_name": "Leous",
   "description": "Verify ownership. Claim your NFT. Access your vault.",
   "theme_color": "#080808",
   "background_color": "#080808",
@@ -14,6 +14,6 @@
   ],
   "shortcuts": [
     { "name": "My Vault", "url": "/dashboard", "description": "Access your ownership vault" },
-    { "name": "Verify Item", "url": "/verify", "description": "Verify a [BRAND] piece" }
+    { "name": "Verify Item", "url": "/verify", "description": "Verify a Leous piece" }
   ]
 }

@@ -1,16 +1,16 @@
-import { getAdminClient } from '@/lib/supabase.ts/admin'
+import { adminSupabase } from '@/lib/supabase/admin'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminDropsPage() {
-  const adminClient = getAdminClient()
+  
 
-  const { data: drops } = await adminClient
+  const { data: drops } = await adminSupabase
     .from('drops')
     .select('id, drop_number, name, price_inr, total_units, is_active, created_at')
     .order('drop_number', { ascending: false })
 
-  const { data: products } = await adminClient
+  const { data: products } = await adminSupabase
     .from('products')
     .select('id, sku, name, price_inr, stock_total, stock_left, is_active, drop_id')
     .order('created_at', { ascending: false })

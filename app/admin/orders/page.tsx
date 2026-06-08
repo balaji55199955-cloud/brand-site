@@ -1,11 +1,11 @@
-import { getAdminClient } from '@/lib/supabase.ts/admin'
+import { adminSupabase } from '@/lib/supabase/admin'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminOrdersPage() {
-  const adminClient = getAdminClient()
+  
 
-  const { data: orders } = await adminClient
+  const { data: orders } = await adminSupabase
     .from('orders')
     .select('id, user_id, product_id, amount_inr, status, razorpay_payment_id, created_at, products(name, sku)')
     .order('created_at', { ascending: false })

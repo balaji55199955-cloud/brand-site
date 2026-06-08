@@ -1,12 +1,12 @@
-import { getAdminClient } from '@/lib/supabase.ts/admin'
+import { adminSupabase } from '@/lib/supabase/admin'
 import { AdminClaimActions } from './actions'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminClaimsPage() {
-  const adminClient = getAdminClient()
+  
 
-  const { data: certs } = await adminClient
+  const { data: certs } = await adminSupabase
     .from('ownership_certificates')
     .select('id, order_id, product_id, status, wallet_address, wallet_type, token_id, tx_hash, chain, created_at')
     .order('created_at', { ascending: false })

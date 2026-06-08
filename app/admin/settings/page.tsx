@@ -1,17 +1,17 @@
-import { getAdminClient } from '@/lib/supabase.ts/admin'
+import { adminSupabase } from '@/lib/supabase/admin'
 import { CreateDropForm, CreateProductForm, SeoForm } from '../forms'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminSettingsPage() {
-  const adminClient = getAdminClient()
+  
 
-  const { data: drops } = await adminClient
+  const { data: drops } = await adminSupabase
     .from('drops')
     .select('id, name, drop_number')
     .order('drop_number', { ascending: true })
 
-  const { data: seoRow } = await adminClient
+  const { data: seoRow } = await adminSupabase
     .from('site_settings')
     .select('value')
     .eq('key', 'seo')

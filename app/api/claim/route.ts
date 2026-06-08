@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase.ts/server'
-import { getAdminClient } from '@/lib/supabase.ts/admin'
+import { createClient } from '@/lib/supabase/server'
+import { adminSupabase } from '@/lib/supabase/admin'
 
 export async function POST(request: Request) {
   try {
@@ -30,9 +30,9 @@ export async function POST(request: Request) {
       }
     }
 
-    const adminClient = getAdminClient()
+    
 
-    const { data: order, error: orderError } = await adminClient
+    const { data: order, error: orderError } = await adminSupabase
       .from('orders')
       .select('id, user_id, product_id, status')
       .eq('id', orderId)
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Order not eligible for claim' }, { status: 400 })
     }
 
-    const { data: existingCert } = await adminClient
+    const { data: existingCert } = await adminSupabase
       .from('ownership_certificates')
       .select('id, status')
       .eq('order_id', orderId)
@@ -65,7 +65,7 @@ export async function POST(request: Request) {
       : walletAddress
 
     if (existingCert) {
-      await adminClient
+      await adminSupabase
         .from('ownership_certificates')
         .update({
           wallet_address: resolvedWallet,
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
         })
         .eq('id', existingCert.id)
     } else {
-      await adminClient
+      await adminSupabase
         .from('ownership_certificates')
         .insert({
           order_id: orderId,

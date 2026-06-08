@@ -1,12 +1,12 @@
-import { getAdminClient } from '@/lib/supabase.ts/admin'
+import { adminSupabase } from '@/lib/supabase/admin'
 import { InviteButton } from '../forms'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminWaitlistPage() {
-  const adminClient = getAdminClient()
+  
 
-  const { data: waitlist } = await adminClient
+  const { data: waitlist } = await adminSupabase
     .from('waitlist')
     .select('id, email, position, invited, drop_access, created_at')
     .order('position', { ascending: true })

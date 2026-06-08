@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getAdminClient } from '@/lib/supabase.ts/admin'
+import { adminSupabase } from '@/lib/supabase/admin'
 
 type Params = {
   params: Promise<{ dropNumber: string }>
@@ -8,9 +8,9 @@ type Params = {
 export async function GET(_: Request, { params }: Params) {
   try {
     const { dropNumber } = await params
-    const adminClient = getAdminClient()
+    
 
-    const { data: drop, error } = await adminClient
+    const { data: drop, error } = await adminSupabase
       .from('drops')
       .select('id, name, description, price_inr, total_units, is_active')
       .eq('drop_number', parseInt(dropNumber, 10))
@@ -20,7 +20,7 @@ export async function GET(_: Request, { params }: Params) {
       return NextResponse.json({ drop: null })
     }
 
-    const { count } = await adminClient
+    const { count } = await adminSupabase
       .from('orders')
       .select('id', { count: 'exact', head: true })
       .eq('product_id', drop.id)

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { createClient } from '@/lib/supabase.ts/server'
-import { getAdminClient } from '@/lib/supabase.ts/admin'
+import { createClient } from '@/lib/supabase/server'
+import { adminSupabase } from '@/lib/supabase/admin'
 
 export async function POST(request: Request) {
   try {
@@ -19,9 +19,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
     }
 
-    const adminClient = getAdminClient()
+    
 
-    const { error } = await adminClient
+    const { error } = await adminSupabase
       .from('ownership_certificates')
       .update({
         status: 'minted',

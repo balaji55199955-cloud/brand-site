@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server'
-import { getAdminClient } from '@/lib/supabase.ts/admin'
+import { adminSupabase } from '@/lib/supabase/admin'
 import {
   verifyRazorpayWebhookSignature,
 } from '@/lib/razorpay'
-import { sendOrderConfirmationEmail } from '@/lib/resend'
+import { sendPurchaseConfirmEmail } from '@/lib/resend'
 
 export async function POST(request: Request) {
   try {
-    const adminClient = getAdminClient()
+    
     const payload = await request.text()
     const signature = request.headers.get('x-razorpay-signature')
 
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid payment payload' }, { status: 400 })
     }
 
-    const { data: order, error: orderError } = await adminClient
+    const { data: order, error: orderError } = await adminSupabase
       .from('orders')
       .select('id, user_id, product_id, status')
       .eq('razorpay_order_id', razorpayOrderId)
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: true })
     }
 
-    const { error: updateError } = await adminClient
+    const { error: updateError } = await adminSupabase
       .from('orders')
       .update({
         status: 'paid',
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
       )
     }
 
-    const { error: certError } = await adminClient
+    const { error: certError } = await adminSupabase
       .from('ownership_certificates')
       .upsert(
         {
@@ -93,10 +93,10 @@ export async function POST(request: Request) {
       )
     }
 
-    const { data: userData } = await adminClient.auth.admin.getUserById(order.user_id)
+    const { data: userData } = await adminSupabase.auth.admin.getUserById(order.user_id)
     const email = userData.user?.email
     if (email) {
-      await sendOrderConfirmationEmail(email, order.id)
+      await sendPurchaseConfirmEmail(order.id, order.user_id)
     }
 
     return NextResponse.json({ ok: true })

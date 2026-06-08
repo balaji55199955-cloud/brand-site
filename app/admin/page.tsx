@@ -48,7 +48,7 @@ export default function AdminPage() {
       <nav className="border-b border-brand-red bg-brand-carbon px-6 py-3">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <span className="font-display font-bold text-sm uppercase">[BRAND] ADMIN</span>
+            <span className="font-display font-bold text-sm uppercase">Leous ADMIN</span>
             <button onClick={() => setTab('overview')} className={`text-xs ${tab === 'overview' ? 'text-brand-red' : 'text-brand-muted hover:text-brand-white'}`}>OVERVIEW</button>
             <button onClick={() => setTab('waitlist')} className={`text-xs ${tab === 'waitlist' ? 'text-brand-red' : 'text-brand-muted hover:text-brand-white'}`}>WAITLIST</button>
             <button onClick={() => setTab('orders')} className={`text-xs ${tab === 'orders' ? 'text-brand-red' : 'text-brand-muted hover:text-brand-white'}`}>ORDERS</button>
